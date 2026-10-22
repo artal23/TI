@@ -1,31 +1,3 @@
-"""
-Baseline: Random Forest clasico para prediccion de riesgo crediticio/quiebra
-=============================================================================
-Dataset: Polish Companies Bankruptcy Dataset (UCI Machine Learning Repository)
-https://archive.ics.uci.edu/dataset/365/polish+companies+bankruptcy+data
-
-Este script es el PASO 1 : entrenar y evaluar un Random Forest
-"normal" (sin logica difusa, sin algoritmo genetico) para tener una linea
-base de comparacion (precision Y tiempo de computo) contra la cual se
-comparara el algoritmo hibrido propuesto mas adelante.
-
-Como obtener los datos
------------------------
-Este entorno de ejecucion no tiene salida a internet hacia UCI, asi que
-debes correr este script en tu propia maquina (con internet). Tienes dos
-opciones para obtener el dataset:
-
-OPCION A (recomendada, automatica):
-    pip install ucimlrepo
-    El script ya intenta usar esta libreria automaticamente (ver abajo).
-
-OPCION B (manual):
-    1. Entra a https://archive.ics.uci.edu/dataset/365/polish+companies+bankruptcy+data
-    2. Descarga el .zip y descomprimelo
-    3. Copia los archivos 1year.arff ... 5year.arff a la carpeta data/
-    4. Corre el script normalmente (usara los .arff locales si no hay internet)
-"""
-
 import os
 import time
 import warnings
@@ -72,15 +44,15 @@ def cargar_datos(year=YEAR):
         print(f"No se pudo usar ucimlrepo ({e}). Buscando archivo .arff local...")
 
     # --- Intento 2: archivo .arff local descargado manualmente ---
-    arff_path = os.path.join(DATA_DIR, f"{year}.arff")
-    if os.path.exists(arff_path):
-        from scipy.io import arff
-        data, meta = arff.loadarff(arff_path)
-        df = pd.DataFrame(data)
-        # La columna 'class' en el .arff viene como bytes (b'0'/b'1'); se convierte a int
-        df["class"] = df["class"].apply(lambda v: int(v.decode("utf-8")) if isinstance(v, bytes) else int(v))
-        print(f"Dataset cargado desde {arff_path}: {df.shape[0]} filas, {df.shape[1]} columnas.")
-        return df
+    # arff_path = os.path.join(DATA_DIR, f"{year}.arff")
+    # if os.path.exists(arff_path):
+    #     from scipy.io import arff
+    #     data, meta = arff.loadarff(arff_path)
+    #     df = pd.DataFrame(data)
+    #     # La columna 'class' en el .arff viene como bytes (b'0'/b'1'); se convierte a int
+    #     df["class"] = df["class"].apply(lambda v: int(v.decode("utf-8")) if isinstance(v, bytes) else int(v))
+    #     print(f"Dataset cargado desde {arff_path}: {df.shape[0]} filas, {df.shape[1]} columnas.")
+    #     return df
 
     raise FileNotFoundError(
         f"No se encontro el dataset. Instala 'ucimlrepo' (pip install ucimlrepo) "
